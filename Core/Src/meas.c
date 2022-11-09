@@ -170,27 +170,11 @@ void MEAS_ADC1_eval(uint8_t pos) {
 	for(i=0; i<MEAS_ADC1_CHANNELS; i++) *(adcf+i) = ((float)((*(adc+i)) >> ADC1_OVERSAMLING))/ADC_MaxVal * ADV_RevVal; 		// Oversamling
 
 
-	//CPU_GetTemperature((adcf+4), &CPU_Temp);		// get CPU-Temperature, mesured on 5th channel (ADC1 Temperature sensor)
-
-
 	if(MEAS_samplectr > ADC_ledctr_max) {
 		MEAS_samplectr = 0;
 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin); // Activity LED
 	}
 
 	MEAS_ACD1_update = 1;	// set ADC1 update flag
-}
-
-// ********************************
-// *** FUNCTION IMPLEMENTATION ****
-// ********************************
-// ********* TEMPERATURE **********
-
-void CPU_GetTemperature(float* Voltage, float* CPUTemp) {
-	// @brief	convert the voltage reading from the CPU Temperature measurement into °C;
-	// @param	SGL* Voltage	--> Pointer to CPU Temperature ADC Voltage reading
-	// @param	SGL* CPUTemp	--> Pointer to Temperature variable
-	// @return	none, void
-	*CPUTemp = ((CPUTemp_V25 - *Voltage)/(CPUTemp_aSlope/1000.0F))+25.0F;
 }
 
